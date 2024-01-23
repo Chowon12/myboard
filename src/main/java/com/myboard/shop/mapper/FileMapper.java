@@ -14,4 +14,6 @@ public interface FileMapper {
 
 	File getFileByFileno(int fileno) throws SQLException;
 
+	int insertFile(File file) throws SQLException;
+
 }

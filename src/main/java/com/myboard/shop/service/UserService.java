@@ -14,16 +14,30 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 	
-	private final UserMapper usermapper;
+	private final UserMapper userMapper;
 	
 	public List<User> getAllUserList() throws SQLException {
 		
-		return usermapper.getAllUserList();
+		return userMapper.getAllUserList();
 	}
 
 	public User getUserById(String id) throws SQLException {
-		User user = usermapper.getUserById(id);
+		User user = userMapper.getUserById(id);
 		return null;
 	}
 
+	public boolean insertUser(User user) throws SQLException {
+		user = new User().builder()
+							.id("asd")
+							.password("zxc")
+							.author(1)
+							.build();
+		
+		System.out.println(user);
+		
+		int result = userMapper.insertUser(user);	
+		
+		return result == 0 ? false : true;
+		
+	}
 }

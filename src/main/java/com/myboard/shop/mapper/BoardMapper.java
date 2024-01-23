@@ -14,4 +14,6 @@ public interface BoardMapper {
 
 	Board getBoardByTitle(String title) throws SQLException;
 
+	int insertBoard(Board board) throws SQLException;
+
 }

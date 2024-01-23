@@ -14,4 +14,6 @@ public interface CommentMapper {
 
 	Comment getCommentById(String id) throws SQLException;
 
+	int insertComment(Comment comment) throws SQLException;
+
 }

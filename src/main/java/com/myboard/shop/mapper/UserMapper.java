@@ -14,4 +14,6 @@ public interface UserMapper {
 
 	User getUserById(String id) throws SQLException;
 
+	int insertUser(User user) throws SQLException;
+
 }

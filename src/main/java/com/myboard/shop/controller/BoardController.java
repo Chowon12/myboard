@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.myboard.shop.dto.Board;
 import com.myboard.shop.dto.User;
@@ -46,5 +47,18 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		return "boardDetail";
+	}
+	
+	@PostMapping(value = "/board")
+	public String insertBoard(Board board) {
+		String view = "error";
+		try {
+			boolean result = boardService.insertBoard(board);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return view;
 	}
 }

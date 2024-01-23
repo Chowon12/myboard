@@ -1,5 +1,6 @@
 package com.myboard.shop.service;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -24,5 +25,22 @@ public class CommentService {
 	public Comment getCommentById(String id) throws SQLException {
 		Comment comment = commentMapper.getCommentById(id);
 		return null;
+	}
+
+	public boolean insertComment(Comment comment) throws SQLException {
+		Date date = new Date(new java.util.Date().getTime());
+		comment = new Comment().builder()
+								.context("zxc")
+								.date(date)
+								.writer("asd")
+								.userId("asd")
+								.boardId(2)
+								.build();
+
+		System.out.println(comment);
+								
+		int result = commentMapper.insertComment(comment);
+		
+		return result == 0 ? false : true;
 	}
 }
