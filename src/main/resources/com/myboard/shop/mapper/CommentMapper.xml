@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myboard.shop.mapper.CommentMapper">
+
+	<insert id="insertComment"
+			parameterType="com.myboard.shop.dto.Comment">
+		INSERT INTO comment (context, date, writer, user_id, board_id)
+		VALUES(#{context}, #{date}, #{writer}, #{userId}, #{boardId})
+	</insert>
+</mapper>
