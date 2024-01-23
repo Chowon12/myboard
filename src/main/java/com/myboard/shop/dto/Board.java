@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 public class Board {
 	private int fileNo;
-	private String path;
+	private String title;
 	private String context;
 	private Date regDate;
 	private String writer;
@@ -22,10 +22,10 @@ public class Board {
 	private Date updateDate;
 	
 	@Builder
-	public Board(int fileNo, String path, String context, Date regDate, String writer, String userId, Date updateDate) {
+	public Board(int fileNo, String title, String context, Date regDate, String writer, String userId, Date updateDate) {
 		super();
 		this.fileNo = fileNo;
-		this.path = path;
+		this.title = title;
 		this.context = context;
 		this.regDate = regDate;
 		this.writer = writer;

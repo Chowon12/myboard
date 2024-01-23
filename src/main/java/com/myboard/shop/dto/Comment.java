@@ -17,18 +17,18 @@ public class Comment {
 	private String context;
 	private Date date;
 	private String writer;
-	private String user_id;
-	private String board_id;
+	private String userId;
+	private Integer boardId;
 	
 	@Builder
-	public Comment(int id, String context, Date date, String writer, String user_id, String board_id) {
+	public Comment(int id, String context, Date date, String writer, String userId, Integer boardId) {
 		super();
 		this.id = id;
 		this.context = context;
 		this.date = date;
 		this.writer = writer;
-		this.user_id = user_id;
-		this.board_id = board_id;
+		this.userId = userId;
+		this.boardId = boardId;
 	}
 	
 	
