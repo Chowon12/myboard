@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myboard.shop.dto.Board;
-import com.myboard.shop.dto.File;
+import com.myboard.shop.dto.BoardFile;
 import com.myboard.shop.service.BoardService;
 import com.myboard.shop.service.FileService;
 
@@ -29,7 +29,7 @@ public class BoardController {
 	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.GET)
 	public String getBoardByfileNo(@PathVariable int fileNo, Model model) {
 		Board board = null;
-		File file = null;
+		BoardFile file = null;
 		try {
 			board = boardService.getBoardByfileNo(fileNo);
 			file = fileService.getFileByFileno(fileNo);
@@ -48,7 +48,7 @@ public class BoardController {
 	public String updateBoardForm(@PathVariable int fileNo, Model model) throws Exception {
 		
 		Board board = boardService.getBoardByfileNo(fileNo);
-		File file = fileService.getFileByFileno(fileNo);
+		BoardFile file = fileService.getFileByFileno(fileNo);
 		
 		model.addAttribute("board", board);
 		model.addAttribute("file", file);

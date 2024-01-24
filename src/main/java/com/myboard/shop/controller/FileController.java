@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myboard.shop.dto.Board;
-import com.myboard.shop.dto.File;
+import com.myboard.shop.dto.BoardFile;
 import com.myboard.shop.service.FileService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class FileController {
 	
 	@GetMapping(value="/files")
 	public String getAllFileList(Model model) {
-		List<File> fileList;
+		List<BoardFile> fileList;
 		try {
 			fileList = fileService.getAllFileList();
 			model.addAttribute("fileList", fileList);
@@ -40,7 +40,7 @@ public class FileController {
 	
 	@GetMapping(value="/file/{fileno}")
 	public String getFileByFileno(@PathVariable int fileno, Model model) {
-		File file = null;
+		BoardFile file = null;
 		try {
 			file = fileService.getFileByFileno(fileno);
 			System.out.println(file);

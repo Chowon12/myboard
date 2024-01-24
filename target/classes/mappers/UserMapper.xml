@@ -16,7 +16,7 @@
 	</insert>
 	<select id="getUserByUserId" parameterType="string"
 		resultType="com.myboard.shop.dto.User">
-		SELECT id, pw, author
+		SELECT id, password, author
 		FROM user
 		WHERE id = #{id}
 	</select>
@@ -24,14 +24,9 @@
 	<update id="updateUserPW"
 		parameterType="com.myboard.shop.dto.User">
 		UPDATE user
-		SET pw = #{password}
+		SET password = #{password}
 		WHERE id = #{id}
 	</update>
-	
-	<delete id="deleteUser" parameterType="com.myboard.shop.dto.User">
-		DELETE FROM user
-		WHERE id = #{id} AND pw = #{password};
-	</delete>
 	
 	
 	<resultMap type="com.myboard.shop.dto.User" id="user">
