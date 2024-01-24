@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.myboard.shop.mapper.FileMapper">
+<mapper namespace="com.myboard.shop.mapper.BoardFileMapper">
 	<select id="getAllFileList" resultType="com.myboard.shop.dto.File">
 		SELECT path, file_no, file_name, date, file_size, board_id
 		FROM board_file

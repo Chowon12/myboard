@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.myboard.shop.dto.Board;
 import com.myboard.shop.dto.BoardFile;
 import com.myboard.shop.service.BoardService;
-import com.myboard.shop.service.FileService;
+import com.myboard.shop.service.BoardFileService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardController {
 	private final BoardService boardService;
-	private final FileService fileService;
+	private final BoardFileService fileService;
 	
 	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.GET)
 	public String getBoardByfileNo(@PathVariable int fileNo, Model model) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.myboard.shop.mapper.FileMapper">
-	<select id="getAllFileList" resultType="com.myboard.shop.dto.File">
+<mapper namespace="com.myboard.shop.mapper.BoardFileMapper">
+	<select id="getAllFileList" resultType="com.myboard.shop.dto.BoardFile">
 		SELECT file_path, file_no, file_name, date, file_size, board_id
 		FROM board_file
 	</select>
@@ -12,13 +12,13 @@
 	</select>
 	
 	<insert id="insertFile"
-		parameterType="com.myboard.shop.dto.File">
+		parameterType="com.myboard.shop.dto.BoardFile">
 	INSERT INTO board_file (path, date, file_size, file_name, board_id)
 	VALUES (#{path}, #{date}, #{fileSize}, #{fileName}, #{boardId})
 
 	</insert>
 	
-	<resultMap type="com.myboard.shop.dto.File" id="file">
+	<resultMap type="com.myboard.shop.dto.BoardFile" id="file">
  		<result property="path" column="file_path"/>
  		<result property="fileNo" column="file_no"/>
  		<result property="fileName" column="file_name"/>

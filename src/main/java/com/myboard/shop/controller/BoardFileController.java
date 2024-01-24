@@ -14,15 +14,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.myboard.shop.dto.Board;
 import com.myboard.shop.dto.BoardFile;
-import com.myboard.shop.service.FileService;
+import com.myboard.shop.service.BoardFileService;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class FileController {
+public class BoardFileController {
 	
-	private final FileService fileService;
+	private final BoardFileService fileService;
 	
 	@GetMapping(value="/files")
 	public String getAllFileList(Model model) {

@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myboard.shop.dto.BoardFile;
-import com.myboard.shop.mapper.FileMapper;
+import com.myboard.shop.mapper.BoardFileMapper;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class FileService {
+public class BoardFileService {
 
-	private final FileMapper fileMapper;
+	private final BoardFileMapper fileMapper;
 
 	public List<BoardFile> getAllFileList() throws SQLException {
 		List<BoardFile> files = fileMapper.getAllFileList();
