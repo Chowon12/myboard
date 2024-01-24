@@ -9,7 +9,8 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class FileController {
+	public final FileService fileService;
 	
-	private final FileService fileService;
-
+	
+	
 }
