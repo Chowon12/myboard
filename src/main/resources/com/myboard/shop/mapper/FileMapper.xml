@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myboard.shop.mapper.FileMapper">
 	<select id="getAllFileList" resultType="com.myboard.shop.dto.File">
-		SELECT file_path, file_no, file_name, date, file_size, board_id
-		FROM file
+		SELECT path, file_no, file_name, date, file_size, board_id
+		FROM board_file
 	</select>
 	
 	<select id="getFileByFileno" parameterType="_int" resultMap="file">
-		SELECT file_path, file_no, file_name, date, file_size, board_id
-		FROM file WHERE file_no = #{fileno}
+		SELECT path, file_no, file_name, date, file_size, board_id
+		FROM board_file WHERE file_no = #{fileno}
 	</select>
 	
 	<insert id="insertFile"
 		parameterType="com.myboard.shop.dto.File">
-	INSERT INTO file (path, date, file_size, file_name, board_id)
+	INSERT INTO board_file (path, date, file_size, file_name, board_id)
 	VALUES (#{path}, #{date}, #{fileSize}, #{fileName}, #{boardId})
 
 	</insert>
