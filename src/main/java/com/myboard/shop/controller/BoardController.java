@@ -53,7 +53,7 @@ public class BoardController {
 		model.addAttribute("board", board);
 		model.addAttribute("file", file);
 		
-		return "updateBoard";
+		return "boardReg";
 	}
 	
 	// /board/10
@@ -81,7 +81,7 @@ public class BoardController {
 			}
 			
 			if(result) {
-				view = "redirect:/board/" + fileNo;
+				view = "redirect:/boards/" + fileNo;
 				return view;
 			}
 		} catch (Exception e) {
@@ -102,7 +102,7 @@ public class BoardController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "board";
+		return "main";
 	}
 	
 	
@@ -125,6 +125,7 @@ public class BoardController {
 		String view = "error";
 		try {
 			boolean result = boardService.insertBoard(board);
+			view = "boardReg";
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

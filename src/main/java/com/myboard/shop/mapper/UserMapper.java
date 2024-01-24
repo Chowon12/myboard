@@ -18,4 +18,6 @@ public interface UserMapper {
 	
 	int updateUserPW(String id) throws SQLException;
 
+	int deleteUser(User user);
+
 }

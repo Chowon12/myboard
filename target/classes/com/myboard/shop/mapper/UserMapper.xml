@@ -28,6 +28,11 @@
 		WHERE id = #{id}
 	</update>
 	
+	<delete id="deleteUser" parameterType="com.myboard.shop.dto.User">
+		DELETE FROM user
+		WHERE id = #{id} AND ;
+	</delete>
+	
 	
 	<resultMap type="com.myboard.shop.dto.User" id="user">
  		<result property="id" column="id"/>

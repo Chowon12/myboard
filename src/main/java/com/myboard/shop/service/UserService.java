@@ -55,6 +55,10 @@ public class UserService {
 
 	}
 
-
+	public boolean deleteUser(User user) throws SQLException {
+		int result = userMapper.deleteUser(user);	
+		return result == 0 ? false : true;
+		
+	}
 
 }
