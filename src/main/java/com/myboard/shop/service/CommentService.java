@@ -16,15 +16,15 @@ import lombok.RequiredArgsConstructor;
 public class CommentService {
 
 	private final CommentMapper commentMapper;
+	
+	public Comment getCommentById(int id) throws SQLException {
+		return commentMapper.getCommentById(id);
+	}
+
 
 	public List<Comment> getCommentList() throws SQLException {
 		List<Comment> commentList = commentMapper.getCommentList();
 		return commentList;
-	}
-
-	public Comment getCommentById(String id) throws SQLException {
-		Comment comment = commentMapper.getCommentById(id);
-		return null;
 	}
 
 	public boolean insertComment(Comment comment) throws SQLException {

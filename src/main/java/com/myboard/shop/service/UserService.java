@@ -21,11 +21,6 @@ public class UserService {
 		return userMapper.getAllUserList();
 	}
 
-	public User getUserById(String id) throws SQLException {
-		User user = userMapper.getUserById(id);
-		return null;
-	}
-
 	public boolean insertUser(User user) throws SQLException {
 		user = new User().builder()
 							.id("asd")
@@ -40,4 +35,26 @@ public class UserService {
 		return result == 0 ? false : true;
 		
 	}
+	
+	public User getUserByUserId(String id) throws SQLException {
+		return userMapper.getUserByUserId(id); 
+	}
+
+	public boolean updateUserPW(String id) throws SQLException {
+		boolean result = false;
+
+		int res = userMapper.updateUserPW(id);
+
+		if (res != 0) {
+			result = true;
+		} else {
+			new Exception("회원정보 수정 실패");
+		}
+
+		return result;
+
+	}
+
+
+
 }

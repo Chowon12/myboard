@@ -38,8 +38,10 @@ public class FileService {
 									.fileName("zxc")
 									.boardId(2)
 									.build();
-		System.out.println(realFile);
+//		System.out.println(realFile);
 		result = fileMapper.insertFile(realFile);
 		return result == 0 ? false : true;
 	}
+	
+	
 }

@@ -16,6 +16,24 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
 	
 	private final BoardMapper boardMapper;
+	
+	public Board getBoardByfileNo(int fileNo) {
+		return boardMapper.getBoardByfileNo(fileNo); 
+	}
+
+	public boolean updateBoard(Board board) throws SQLException {
+		boolean result = false;
+
+		int res = boardMapper.updateBoard(board);
+
+		if (res != 0) {
+			result = true;
+		} else {
+			new Exception("상품정보 수정 실패");
+		}
+
+		return result;
+	}
 
 	public List<Board> getAllBoardList() throws SQLException {
 		List<Board> boards = boardMapper.getAllBoardList();

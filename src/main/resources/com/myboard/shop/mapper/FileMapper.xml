@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myboard.shop.mapper.FileMapper">
-<insert id="insertFile"
+	<select id="getAllFileList" resultType="com.myboard.shop.dto.File">
+		SELECT file_path, file_no, file_name, date, file_size, board_id
+		FROM file
+	</select>
+	
+	<select id="getFileByFileno" parameterType="_int" resultMap="file">
+		SELECT file_path, file_no, file_name, date, file_size, board_id
+		FROM file WHERE file_no = #{fileno}
+	</select>
+	
+	<insert id="insertFile"
 		parameterType="com.myboard.shop.dto.File">
 	INSERT INTO file (path, date, file_size, file_name, board_id)
 	VALUES (#{path}, #{date}, #{fileSize}, #{fileName}, #{boardId})
 
-</insert>
+	</insert>
+	
+	<resultMap type="com.myboard.shop.dto.File" id="file">
+ 		<result property="path" column="file_path"/>
+ 		<result property="fileNo" column="file_no"/>
+ 		<result property="fileName" column="file_name"/>
+ 		<result property="date" column="date"/>
+ 		<result property="fileSize" column="file_size"/>
+ 		<result property="boardId" column="board_id"/>
+ 	</resultMap>
 </mapper>

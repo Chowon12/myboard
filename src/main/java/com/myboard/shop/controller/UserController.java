@@ -3,16 +3,14 @@ package com.myboard.shop.controller;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import java.sql.SQLException;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.myboard.shop.dto.User;
 import com.myboard.shop.service.UserService;
@@ -31,7 +29,6 @@ public class UserController {
 		try {
 			userList = userService.getAllUserList();
 			model.addAttribute("userList", userList);
-			model.addAttribute("userList", userList);
 			System.out.println(userList);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -41,10 +38,10 @@ public class UserController {
 	
 	
 	@GetMapping(value="/user/{id}")
-	public String getUserById(@PathVariable String id, Model model) {
+	public String getUserByUserId(@PathVariable String id, Model model) {
 		User user = null;
 		try {
-			user = userService.getUserById(id);
+			user = userService.getUserByUserId(id);
 			System.out.println(user);
 			model.addAttribute("user", user);
 		} catch (SQLException e) {
@@ -68,4 +65,51 @@ public class UserController {
 		
 		return view;
 	}
+	
+	@RequestMapping(value = "/modify/user", method = RequestMethod.GET)
+	public String updateUserForm(String id, Model model) {
+
+		User user;
+		try {
+			user = userService.getUserByUserId(id);
+			model.addAttribute("user", user);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return "updateUser";
+	}
+	
+	@RequestMapping(value = "/user", method = RequestMethod.PUT)
+	public String updateUserPW(String id,
+										@ModelAttribute User newUser) {
+		
+		System.out.println("POST");
+		String view = "error";
+		
+		System.out.println(id);
+		System.out.println(newUser.getPassword());
+		
+		
+		User user = null;
+		boolean result = false;
+		try {
+			user = userService.getUserByUserId(id);
+			
+			user.setPassword(newUser.getPassword());
+			
+			result = userService.updateUserPW(id);
+			
+			if(result) {
+				view = "redirect:/user/" + id;
+				return view;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return view;
+		}
+		return view;
+	}
+	
 }

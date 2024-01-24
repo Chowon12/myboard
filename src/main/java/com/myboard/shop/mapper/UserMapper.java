@@ -12,8 +12,10 @@ public interface UserMapper {
 
 	List<User> getAllUserList() throws SQLException;
 
-	User getUserById(String id) throws SQLException;
+	User getUserByUserId(String id) throws SQLException;
 
 	int insertUser(User user) throws SQLException;
+	
+	int updateUserPW(String id) throws SQLException;
 
 }
