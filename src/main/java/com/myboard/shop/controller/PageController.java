@@ -1,5 +1,6 @@
 package com.myboard.shop.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -18,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PageController {
 	
-	final PageMapper pageMapper;
+	private final PageMapper pageMapper;
 	
 	@GetMapping("/board-data")
 	public void insertBoardToPage() {
@@ -60,16 +61,15 @@ public class PageController {
 									Model model) {
 		System.out.println(pageRequest);
 		
-		List<Board> boardList = pageMapper.getBoardBySearchWithPage(pageRequest);
+		List<Board> boardList =	pageMapper.getBoardBySearchWithPage(pageRequest);
 		
 		int totalCount = pageMapper.getTotalCount(pageRequest);
 		
-		PageResponse pageResponse = new PageResponse().builder()
+		PageResponse pageResponse = PageResponse.builder()
 									.total(totalCount)
 									.pageAmount(pageRequest.getAmount())
 									.pageRequest(pageRequest)
 									.build();
-		
 		
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pageInfo", pageResponse);

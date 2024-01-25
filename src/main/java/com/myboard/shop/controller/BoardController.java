@@ -22,9 +22,6 @@ import com.myboard.shop.dto.BoardFile;
 import com.myboard.shop.dto.Comment;
 import com.myboard.shop.dto.User;
 import com.myboard.shop.service.BoardService;
-import com.myboard.shop.service.PageService;
-import com.myboard.shop.dto.PageRequestDTO;
-import com.myboard.shop.dto.PageResponseDTO;
 import com.myboard.shop.service.BoardFileService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,9 +31,8 @@ import lombok.RequiredArgsConstructor;
 public class BoardController {
 	private final BoardService boardService;
 	private final BoardFileService fileService;
-	private final PageService pageService;
 	
-	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.GET)
+	@RequestMapping(value = "/board/${board.fileNo}", method = RequestMethod.GET)
 	public String getBoardByfileNo(@PathVariable int fileNo, Model model) {
 		Board board = null;
 		BoardFile file = null;
@@ -130,14 +126,21 @@ public class BoardController {
 		return "boardDetail";
 	}
 	
-	@PostMapping(value = "/board")
-	public String insertBoard(Board board) {
+	@PostMapping(value = "/boardreg")
+	public String insertBoard(@ModelAttribute Board newBoard) {
 		String view = "error";
+		boolean result = false;
 		try {
-			boolean result = boardService.insertBoard(board);
-			view = "boardReg";
+			result = boardService.insertBoard(newBoard);
+			System.out.println(result);
+			
+			if(result) {
+				view = "boardReg";
+				return view;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return view;
 		}
 		
 		return view;
@@ -158,40 +161,6 @@ public class BoardController {
 		}
 		
 		return view;
-	}
-	
-	@GetMapping("/page")
-	public String boardPagination(PageRequestDTO pageRequest, Model model) {
-		System.out.println(pageRequest);
-		List<Board> boardList = pageService.getBoardByPage(pageRequest);
-		int totalCount = pageService.getTotalCount(pageRequest);
-		//pageInfo : pageResponse
-		PageResponseDTO pageResponse = new PageResponseDTO().builder()
-															.total(totalCount)
-															.pageAmount(pageRequest.getAmount())
-															.pageRequest(pageRequest)
-															.build();
-		System.out.println(pageResponse);
-		model.addAttribute("boardList", boardList);
-		model.addAttribute("pageInfo", pageResponse);
-		return "main";
-	}
-	
-	@GetMapping("/page-search")
-	public String searchBoardWithPage(PageRequestDTO pageRequest, Model model) {
-		System.out.println(pageRequest);
-		List<Board> boardList = pageService.getBoardBySearchWithPage(pageRequest);
-		int totalCount = pageService.getTotalCount(pageRequest);
-		//pageInfo : pageResponse
-		PageResponseDTO pageResponse = new PageResponseDTO().builder()
-															.total(totalCount)
-															.pageAmount(pageRequest.getAmount())
-															.pageRequest(pageRequest)
-															.build();
-		System.out.println(pageResponse);
-		model.addAttribute("boardList", boardList);
-		model.addAttribute("pageInfo", pageResponse);
-		return "main";
 	}
 	
 }

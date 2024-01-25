@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -10,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<title>Insert title here</title>
+<title>게시판</title>
 <style>
 	    .wide-textarea {
         width: 100%; /* 전체 폭을 사용하도록 설정 */
@@ -18,8 +19,8 @@
         resize: none; /* 드래그로 크기 조절 비활성화 */
     }
 </style>
+
 </head>
-<body>
 
 <%@ include file="header.jsp" %>
 
@@ -193,5 +194,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 </script>
+
 </body>
 </html>

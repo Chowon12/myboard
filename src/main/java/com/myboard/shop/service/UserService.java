@@ -10,7 +10,7 @@ import com.myboard.shop.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Service 
 @RequiredArgsConstructor
 public class UserService {
 	

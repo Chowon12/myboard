@@ -8,7 +8,7 @@
 	
 	<select id="getFileByFileno" parameterType="_int" resultMap="file">
 		SELECT file_path, file_no, file_name, date, file_size, board_id
-		FROM board_file WHERE file_no = #{fileno}
+		FROM board_file WHERE file_no = #{fileNo}
 	</select>
 	
 	<insert id="insertFile"
@@ -18,7 +18,7 @@
 
 	</insert>
 	
-	<resultMap type="com.myboard.shop.dto.BoardFile" id="file">
+	<resultMap type="com.myboard.shop.dto.BoardFile" id="board_file">
  		<result property="path" column="file_path"/>
  		<result property="fileNo" column="file_no"/>
  		<result property="fileName" column="file_name"/>

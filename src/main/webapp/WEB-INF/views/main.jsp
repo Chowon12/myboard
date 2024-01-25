@@ -3,13 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<< HEAD
-<meta charset="UTF-8">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-<title>Insert title here</title>
-=======
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -24,7 +17,6 @@
 	integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
 	crossorigin="anonymous"></script>
 <title>게시판 목록</title>
->>>>>>> origin/main+search
 </head>
 <body>
 	<div class="container">
@@ -38,10 +30,10 @@
 		</div>
 		
 		<div class="container">
-		<c:if test="${not empty sessionScope.userId}">
+		<%-- <c:if test="${not empty sessionScope.userId}"> --%>
         <table class="table">
             <thead>
-            <tr>
+            <tr align="center">
                 <th>글번호</th>
                 <th>제목</th>
                 <th>작성자</th>
@@ -97,13 +89,13 @@
             </c:forEach>
             
         </table>
-        </c:if>
+        <%-- </c:if> --%>
         
-        <c:if test="${empty sessionScope.userId}">
+        <%-- <c:if test="${empty sessionScope.userId}">
 			<div align="center">
 	  		<span style="font-size:12pt;">존재하는 게시물이 없습니다.</span>
 			</div>
-		</c:if>
+		</c:if> --%>
     </div>
     <hr />
 
@@ -129,7 +121,7 @@
 				</form>
 			</div>
 			<!-- https://getbootstrap.com/docs/5.3/components/list-group/ -->
-			<div class="row justify-content-center">
+			<%-- <div class="row justify-content-center">
 				<div class="col-6">
 					<ul class="list-group">
 						<c:if test="${not empty boardList}">
@@ -145,7 +137,7 @@
 						</c:if>
 					</ul>
 				</div>
-			</div>
+			</div> --%>
 			<!-- Paging -->
 			<!-- https://getbootstrap.com/docs/5.3/layout/columns/#alignment -->
 			<!-- https://getbootstrap.com/docs/5.3/components/pagination/#disabled-and-active-states -->

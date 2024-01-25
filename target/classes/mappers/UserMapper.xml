@@ -28,11 +28,14 @@
 		WHERE id = #{id}
 	</update>
 	
+<<<<<<< HEAD:target/classes/mappers/UserMapper.xml
 	<delete id="deleteUser">
 		DELETE FROM user
 	    WHERE ( #{sessionAuthor} = 0 AND id = #{user.id} ) 
 	    OR (id = #{user.id} AND pw = #{user.password})
 	</delete>
+=======
+>>>>>>> origin/main+search:src/main/resources/com/myboard/shop/mapper/UserMapper.xml
 	
 	<resultMap type="com.myboard.shop.dto.User" id="user">
  		<result property="id" column="id"/>

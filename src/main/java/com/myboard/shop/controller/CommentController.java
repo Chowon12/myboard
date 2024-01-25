@@ -20,6 +20,7 @@ import com.myboard.shop.dto.User;
 import com.myboard.shop.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class CommentController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "comment";
+		return "boardDetail";
 	}
 	
 	
@@ -50,7 +51,7 @@ public class CommentController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "commentDetail";
+		return "boardDetail";
 	}
 
 	@PostMapping(value = "/comment")

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.myboard.shop.dto.Board;
 import com.myboard.shop.dto.User;
 import com.myboard.shop.service.UserService;
 
@@ -63,7 +62,6 @@ public class UserController {
 		String view = "error";
 		try {
 			boolean result = userService.insertUser(user);
-			view = "userReg";
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -84,7 +82,7 @@ public class UserController {
 		}
 		
 		
-		return "userUpdate";
+		return "updateUser";
 	}
 	
 	@RequestMapping(value = "/user", method = RequestMethod.PUT)
@@ -118,18 +116,6 @@ public class UserController {
 		return view;
 	}
 	
-//	@DeleteMapping(value = "/user")
-//	public String deleteUser(@RequestBody User user) {
-//		String view = "error";
-//		try {
-//			boolean result = userService.deleteUser(user);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return view;
-//	}
-	
 	@DeleteMapping(value = "/user")
 	public String deleteUser(@RequestBody User user, HttpSession session) {
 		String view = "error";
@@ -147,3 +133,4 @@ public class UserController {
 		return view;
 	}
 }
+

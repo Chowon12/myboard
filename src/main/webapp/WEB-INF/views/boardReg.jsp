@@ -69,5 +69,18 @@
 	</div>
 </div>
 
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg" type="submit">게시글 등록</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='boards.html'"
+                    th:onclick="|location.href='@{/boards}'|"
+                    type="button">취소</button>
+        </div>
+    </div>
+</form>
 </body>
 </html>
