@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.myboard.shop.dto.Board;
 
@@ -19,5 +20,9 @@ public interface BoardMapper {
 	Board getBoardByfileNo(int fileNo);
 
 	int updateBoard(Board board) throws SQLException;
+
+	int deleteBoard(@Param("fileNo") int fileNo, 
+					@Param("author") Integer author, 
+					@Param("userid")String userid) throws SQLException;
 
 }

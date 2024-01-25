@@ -3,19 +3,28 @@ package com.myboard.shop.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myboard.shop.dto.Board;
 import com.myboard.shop.dto.BoardFile;
+import com.myboard.shop.dto.Comment;
+import com.myboard.shop.dto.User;
 import com.myboard.shop.service.BoardService;
+import com.myboard.shop.service.PageService;
+import com.myboard.shop.dto.PageRequestDTO;
+import com.myboard.shop.dto.PageResponseDTO;
 import com.myboard.shop.service.BoardFileService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardController {
 	private final BoardService boardService;
 	private final BoardFileService fileService;
+	private final PageService pageService;
 	
 	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.GET)
 	public String getBoardByfileNo(@PathVariable int fileNo, Model model) {
@@ -81,7 +91,7 @@ public class BoardController {
 			}
 			
 			if(result) {
-				view = "redirect:/boards/" + fileNo;
+				view = "redirect:/board/" + fileNo;
 				return view;
 			}
 		} catch (Exception e) {
@@ -130,7 +140,58 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		
+		return view;
+	}
+	
+	@DeleteMapping(value = "/board")
+	public String deleteBoard(@RequestBody Board board, HttpSession session) {
+		String view = "error";
+		User user = (User) session.getAttribute("user");
+		System.out.println(user);
+		try {
+			boolean result = boardService.deleteBoard(board.getFileNo(), user.getAuthor(), user.getId());
+			if(result) {
+				view = "redirect:/boards";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		return view;
 	}
+	
+	@GetMapping("/page")
+	public String boardPagination(PageRequestDTO pageRequest, Model model) {
+		System.out.println(pageRequest);
+		List<Board> boardList = pageService.getBoardByPage(pageRequest);
+		int totalCount = pageService.getTotalCount(pageRequest);
+		//pageInfo : pageResponse
+		PageResponseDTO pageResponse = new PageResponseDTO().builder()
+															.total(totalCount)
+															.pageAmount(pageRequest.getAmount())
+															.pageRequest(pageRequest)
+															.build();
+		System.out.println(pageResponse);
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("pageInfo", pageResponse);
+		return "main";
+	}
+	
+	@GetMapping("/page-search")
+	public String searchBoardWithPage(PageRequestDTO pageRequest, Model model) {
+		System.out.println(pageRequest);
+		List<Board> boardList = pageService.getBoardBySearchWithPage(pageRequest);
+		int totalCount = pageService.getTotalCount(pageRequest);
+		//pageInfo : pageResponse
+		PageResponseDTO pageResponse = new PageResponseDTO().builder()
+															.total(totalCount)
+															.pageAmount(pageRequest.getAmount())
+															.pageRequest(pageRequest)
+															.build();
+		System.out.println(pageResponse);
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("pageInfo", pageResponse);
+		return "main";
+	}
+	
 }

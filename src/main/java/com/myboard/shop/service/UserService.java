@@ -55,10 +55,9 @@ public class UserService {
 
 	}
 
-	public boolean deleteUser(User user) throws SQLException {
-		int result = userMapper.deleteUser(user);	
+	public boolean deleteUser(User user, Integer sessionAuthor) throws SQLException {
+		int result = userMapper.deleteUser(user, sessionAuthor);	
 		return result == 0 ? false : true;
-		
 	}
 
 }

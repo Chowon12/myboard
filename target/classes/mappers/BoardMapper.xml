@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myboard.shop.mapper.BoardMapper">
-	<select id="getAllBoardList" resultType="com.myboard.shop.dto.Board">
-		SELECT id, title, context, reg_date, user_id, writer, updated_date 
+	<select id="getAllBoardList" resultMap="board">
+		SELECT board_id, title, context, reg_date, user_id, writer, updated_date 
 		FROM board
 	</select>
 	
 	<select id="getBoardByTitle" parameterType="string" resultMap="board">
-		SELECT id, title, context, reg_date, user_id, writer, updated_date 
+		SELECT board_id, title, context, reg_date, user_id, writer, updated_date 
 		FROM board WHERE title = #{title}
 	</select>
 	
@@ -18,10 +18,10 @@
 	</insert>
 	
 	<select id="getBoardByfileNo" parameterType="string"
-		resultType="com.myboard.shop.dto.Board">
-		SELECT fileNo, title, context
+		resultMap="board">
+		SELECT board_id, title, context
 		FROM board
-		WHERE fileNo = #{fileNo}
+		WHERE id = #{fileNo}
 	</select>
 
 	<update id="updateBoard"
@@ -29,11 +29,16 @@
 		UPDATE board
 		SET title = #{title},
 		context = #{context}
-		WHERE fileNo = #{fileNo}
+		WHERE id = #{fileNo}
 	</update>
 	
+	<delete id="deleteBoard">
+		DELETE FROM comment
+	    WHERE ( #{author} = 0 OR user_id = #{userid} ) AND board_id = #{fileNo}
+	</delete>
+	
 	<resultMap type="com.myboard.shop.dto.Board" id="board">
- 		<result property="id" column="id"/>
+ 		<result property="fileNo" column="board_id"/>
  		<result property="context" column="context"/>
  		<result property="date" column="date"/>
  		<result property="writer" column="writer"/>

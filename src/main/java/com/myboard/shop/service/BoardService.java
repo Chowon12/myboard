@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myboard.shop.dto.Board;
+import com.myboard.shop.dto.Comment;
 import com.myboard.shop.mapper.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -60,6 +61,11 @@ public class BoardService {
 		
 		int result = boardMapper.insertBoard(board);
 		
+		return result == 0 ? false : true;
+	}
+
+	public boolean deleteBoard(int fileno, Integer author, String id) throws SQLException {
+		int result = boardMapper.deleteBoard(fileno, author, id);	
 		return result == 0 ? false : true;
 	}
 }
