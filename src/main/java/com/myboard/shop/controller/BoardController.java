@@ -20,7 +20,7 @@ import com.myboard.shop.service.BoardFileService;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@Controller 
 @RequiredArgsConstructor
 public class BoardController {
 	private final BoardService boardService;
@@ -81,7 +81,7 @@ public class BoardController {
 			}
 			
 			if(result) {
-				view = "redirect:/boards/" + fileNo;
+				view = "redirect:/main/" + fileNo;
 				return view;
 			}
 		} catch (Exception e) {
@@ -134,3 +134,4 @@ public class BoardController {
 		return view;
 	}
 }
+
