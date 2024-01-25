@@ -5,13 +5,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myboard.shop.dto.Board;
 import com.myboard.shop.mapper.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Service 
 @RequiredArgsConstructor
 public class BoardService {
 	
