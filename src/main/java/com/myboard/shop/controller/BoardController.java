@@ -26,7 +26,7 @@ public class BoardController {
 	private final BoardService boardService;
 	private final FileService fileService;
 	
-	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.GET)
+	@RequestMapping(value = "/board/${board.fileNo}", method = RequestMethod.GET)
 	public String getBoardByfileNo(@PathVariable int fileNo, Model model) {
 		Board board = null;
 		BoardFile file = null;
@@ -120,14 +120,21 @@ public class BoardController {
 		return "boardDetail";
 	}
 	
-	@PostMapping(value = "/board")
-	public String insertBoard(Board board) {
+	@PostMapping(value = "/boardreg")
+	public String insertBoard(@ModelAttribute Board newBoard) {
 		String view = "error";
+		boolean result = false;
 		try {
-			boolean result = boardService.insertBoard(board);
-			view = "boardReg";
+			result = boardService.insertBoard(newBoard);
+			System.out.println(result);
+			
+			if(result) {
+				view = "boardReg";
+				return view;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return view;
 		}
 		
 		

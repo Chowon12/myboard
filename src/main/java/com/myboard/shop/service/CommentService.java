@@ -11,7 +11,7 @@ import com.myboard.shop.mapper.CommentMapper;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Service 
 @RequiredArgsConstructor
 public class CommentService {
 

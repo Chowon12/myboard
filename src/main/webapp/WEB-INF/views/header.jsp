@@ -12,9 +12,9 @@ li {
 	<div align="right">
 		<ul>
 			<li><span style="font-size: 12pt;"><input type="button"
-						value="목록" onclick="location.href='/main'"></span></li>
+						value="목록" onclick="location.href='boards'"></span></li>
 			<li><span style="font-size: 12pt;"><input type="button"
-						value="게시글 등록" onclick="location.href='/board'"></span></li>
+						value="게시글 등록" onclick="location.href='board'"></span></li>
 			<li><c:if test="${empty sessionScope.userId}">
 					<span style="font-size: 12pt;"><input type="button"
 						value="로그인" onclick="location.href='login'"></span>

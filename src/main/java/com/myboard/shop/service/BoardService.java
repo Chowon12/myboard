@@ -46,9 +46,9 @@ public class BoardService {
 		return board;
 	}
 
-	public boolean insertBoard(Board board) throws SQLException {
+	public boolean insertBoard(Board newBoard) throws SQLException {
 		Date date = new Date(new java.util.Date().getTime());
-		board = new Board().builder()
+		newBoard = new Board().builder()
 							.title("asd/asd/asd")
 							.context("asd")
 							.regDate(date)
@@ -56,9 +56,9 @@ public class BoardService {
 							.userId("asd")
 							.build();
 
-		System.out.println(board);
+		System.out.println(newBoard);
 		
-		int result = boardMapper.insertBoard(board);
+		int result = boardMapper.insertBoard(newBoard);
 		
 		return result == 0 ? false : true;
 	}
