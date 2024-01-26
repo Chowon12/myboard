@@ -10,7 +10,7 @@ import com.myboard.shop.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Service 
 @RequiredArgsConstructor
 public class UserService {
 	
@@ -54,11 +54,20 @@ public class UserService {
 		return result;
 
 	}
-
-	public boolean deleteUser(User user) throws SQLException {
-		int result = userMapper.deleteUser(user);	
+	
+	public boolean deleteUser(User user, Integer sessionAuthor) throws SQLException {
+		int result = userMapper.deleteUser(user, sessionAuthor);	
 		return result == 0 ? false : true;
-		
 	}
+
+	public User getUserByIdAndPw(String id, String password) throws SQLException {
+		User user = null;
+		
+		user = userMapper.getUserByIdAndPw(id, password);
+		
+		return user;
+	}
+
+
 
 }

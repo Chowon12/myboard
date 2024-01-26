@@ -3,6 +3,8 @@ package com.myboard.shop.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,7 +62,6 @@ public class UserController {
 		String view = "error";
 		try {
 			boolean result = userService.insertUser(user);
-			view = "userReg";
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -81,7 +82,7 @@ public class UserController {
 		}
 		
 		
-		return "userUpdate";
+		return "updateUser";
 	}
 	
 	@RequestMapping(value = "/user", method = RequestMethod.PUT)
@@ -115,17 +116,22 @@ public class UserController {
 		return view;
 	}
 	
-//	@DeleteMapping(value = "/user")
-//	public String deleteUser(@RequestBody User user) {
-//		String view = "error";
-//		try {
-//			boolean result = userService.deleteUser(user);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		
-//		return view;
-//	}
-//	
+	@DeleteMapping(value = "/user")
+	public String deleteUser(@RequestBody User user, HttpSession session) {
+		String view = "error";
+		User userSession = (User) session.getAttribute("user");
+		System.out.println(user);
+		try {
+			boolean result = userService.deleteUser(user, userSession.getAuthor());
+			if(result) {
+				view = "redirect:/users";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return view;
+	}
 }
+
+
