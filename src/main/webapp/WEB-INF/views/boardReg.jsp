@@ -36,7 +36,7 @@
 		</div>
 		
 		<section id="container">
-		    <form id="myForm" role="form" method="post" action="/board">
+		    <form id="myForm" role="form" method="post" action="/boardReg">
 		        <div class="form-group">
 		            <label for="title" class="col-sm-2 control-label">제목</label>
 		            <c:choose>

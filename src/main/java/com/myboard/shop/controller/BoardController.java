@@ -32,20 +32,20 @@ public class BoardController {
 	private final BoardService boardService;
 	private final BoardFileService fileService;
 	
-	@RequestMapping(value = "/board/${board.fileNo}", method = RequestMethod.GET)
+	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.GET)
 	public String getBoardByfileNo(@PathVariable int fileNo, Model model) {
 		Board board = null;
 		BoardFile file = null;
 		try {
 			board = boardService.getBoardByfileNo(fileNo);
-			file = fileService.getFileByFileno(fileNo);
+//			file = fileService.getFileByFileno(fileNo);
 			System.out.println(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		model.addAttribute("board", board);
-		model.addAttribute("file", file);
+//		model.addAttribute("file", file);
 		return "boardDetail";
 	}
 	
@@ -112,9 +112,9 @@ public class BoardController {
 	}
 	
 	
-	@GetMapping(value="/board/{title}")
+	@GetMapping(value="/board/search/{title}")
 	public String getBoardByTitle(@PathVariable String title, Model model) {
-		Board board = null;
+		List<Board> board = null;
 		try {
 			board = boardService.getBoardByTitle(title);
 			System.out.println(board);
@@ -126,7 +126,7 @@ public class BoardController {
 		return "boardDetail";
 	}
 	
-	@PostMapping(value = "/boardreg")
+	@PostMapping(value = "/boardReg")
 	public String insertBoard(@ModelAttribute Board newBoard) {
 		String view = "error";
 		boolean result = false;

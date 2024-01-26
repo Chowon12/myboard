@@ -13,7 +13,7 @@ public interface BoardMapper {
 
 	List<Board> getAllBoardList() throws SQLException;
 
-	Board getBoardByTitle(String title) throws SQLException;
+	List<Board> getBoardByTitle(String title) throws SQLException;
 
 	int insertBoard(Board newBoard) throws SQLException;
 
@@ -23,6 +23,6 @@ public interface BoardMapper {
 
 	int deleteBoard(@Param("fileNo") int fileNo, 
 					@Param("author") Integer author, 
-					@Param("userid")String userid) throws SQLException;
+					@Param("userId")String userid) throws SQLException;
 
 }

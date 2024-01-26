@@ -35,7 +35,7 @@
 	</div> --%>
 	
 	<section id="container">
-		<form action="/modify/board/????" method="get">					
+		<form action="/modify/board/${board.fileNo}" method="get">					
 			<div class="form-group">
 				<label for="title" class="col-sm-2 control-label">제목</label>
 				<input type="text" id="title" name="title" class="form-control" value="${board.title}" readonly="readonly" />

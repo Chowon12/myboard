@@ -62,6 +62,7 @@ public class UserController {
 		String view = "error";
 		try {
 			boolean result = userService.insertUser(user);
+			view = "login";
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -131,5 +132,10 @@ public class UserController {
 		}
 		
 		return view;
+	}
+	
+	@GetMapping(value = "/user-insert")
+	public String insertUserForm() {
+		return "userReg";
 	}
 }

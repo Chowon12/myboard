@@ -42,23 +42,12 @@ public class BoardService {
 		return boards;
 	}
 
-	public Board getBoardByTitle(String title) throws SQLException {
-		Board board = boardMapper.getBoardByTitle(title);
+	public List<Board> getBoardByTitle(String title) throws SQLException {
+		List<Board> board = boardMapper.getBoardByTitle(title);
 		return board;
 	}
 
 	public boolean insertBoard(Board newBoard) throws SQLException {
-		Date date = new Date(new java.util.Date().getTime());
-		newBoard = new Board().builder()
-							.title("asd/asd/asd")
-							.context("asd")
-							.regDate(date)
-							.writer("asd")
-							.userId("asd")
-							.build();
-
-		System.out.println(newBoard);
-		
 		int result = boardMapper.insertBoard(newBoard);
 		
 		return result == 0 ? false : true;

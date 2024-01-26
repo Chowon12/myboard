@@ -22,14 +22,6 @@ public class UserService {
 	}
 
 	public boolean insertUser(User user) throws SQLException {
-		user = new User().builder()
-							.id("asd")
-							.password("zxc")
-							.author(1)
-							.build();
-		
-		System.out.println(user);
-		
 		int result = userMapper.insertUser(user);	
 		
 		return result == 0 ? false : true;
