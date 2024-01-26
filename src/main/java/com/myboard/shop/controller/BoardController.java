@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +23,7 @@ import com.myboard.shop.dto.BoardFile;
 import com.myboard.shop.dto.Comment;
 import com.myboard.shop.dto.User;
 import com.myboard.shop.service.BoardService;
+import com.myboard.shop.service.CommentService;
 import com.myboard.shop.service.BoardFileService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,20 +33,24 @@ import lombok.RequiredArgsConstructor;
 public class BoardController {
 	private final BoardService boardService;
 	private final BoardFileService fileService;
+	private final CommentService commentService;
 	
 	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.GET)
 	public String getBoardByfileNo(@PathVariable int fileNo, Model model) {
 		Board board = null;
 		BoardFile file = null;
+		List<Comment> comments = null;
 		try {
 			board = boardService.getBoardByfileNo(fileNo);
+			comments = commentService.getCommentByBoardId(board.getFileNo());
 //			file = fileService.getFileByFileno(fileNo);
 			System.out.println(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(board);
 		model.addAttribute("board", board);
+		model.addAttribute("comments", comments);
 //		model.addAttribute("file", file);
 		return "boardDetail";
 	}
@@ -146,21 +152,24 @@ public class BoardController {
 		return view;
 	}
 	
-	@DeleteMapping(value = "/board")
-	public String deleteBoard(@RequestBody Board board, HttpSession session) {
+	@DeleteMapping(value = "/board/{fileNo}")
+	public ResponseEntity<String> deleteBoard(@PathVariable("fileNo") int fileNo, HttpSession session) {
 		String view = "error";
+		System.out.println(fileNo);
+		System.out.println("delete메서드");
 		User user = (User) session.getAttribute("user");
 		System.out.println(user);
 		try {
-			boolean result = boardService.deleteBoard(board.getFileNo(), user.getAuthor(), user.getId());
+			boolean result = boardService.deleteBoard(fileNo, user.getAuthor(), user.getId());
+			System.out.println(result);
 			if(result) {
-				view = "redirect:/boards";
+				return ResponseEntity.ok("삭제성공");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return view;
+		return ResponseEntity.status(500).body("삭제실패");
 	}
 	
 }

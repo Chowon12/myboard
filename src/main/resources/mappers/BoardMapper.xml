@@ -33,7 +33,7 @@
 	</update>
 	
 	<delete id="deleteBoard">
-		DELETE FROM comment
+		DELETE FROM board
 	    WHERE ( #{author} = 0 OR user_id = #{userId} ) AND board_id = #{fileNo}
 	</delete>
 	

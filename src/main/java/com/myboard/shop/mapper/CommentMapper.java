@@ -13,12 +13,12 @@ public interface CommentMapper {
 
 	List<Comment> getCommentList() throws SQLException;
 
-	Comment getCommentById(int id) throws SQLException;
-
 	int insertComment(Comment comment) throws SQLException;
 
 	int deleteComment(@Param("id") int id, 
 						@Param("author") Integer author, 
 						@Param("userid") String userid) throws SQLException;
+
+	List<Comment> getCommentByBoardId(int boardId)throws SQLException;
 	
 }

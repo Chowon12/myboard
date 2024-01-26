@@ -60,6 +60,7 @@ public class UserController {
 	@PostMapping(value = "/user")
 	public String insertUser(User user) {
 		String view = "error";
+		System.out.println("포스트매핑");
 		try {
 			boolean result = userService.insertUser(user);
 			view = "login";
@@ -81,7 +82,7 @@ public class UserController {
 		}
 		
 		
-		return "updateUser";
+		return "userUpdate";
 	}
 	
 	@RequestMapping(value = "/user", method = RequestMethod.PUT)
@@ -91,8 +92,8 @@ public class UserController {
 		System.out.println("POST");
 		String view = "error";
 		
-		System.out.println(id);
-		System.out.println(newUser.getPassword());
+		System.out.println("아이디" + id);
+		System.out.println(newUser);
 		
 		
 		User user = null;

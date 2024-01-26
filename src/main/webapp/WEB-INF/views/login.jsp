@@ -52,8 +52,8 @@
 						</p>
 					</td>
 					<td width="450" height="20" align="center"><b> <span
-							style="font-size: 12pt;"> <!-- input 박스 --> <input id="pw"
-								type="text" name="pw" size="30">
+							style="font-size: 12pt;"> <!-- input 박스 --> <input id="password"
+								type="text" name="password" size="30">
 						</span>
 					</b></td>
 				</tr>

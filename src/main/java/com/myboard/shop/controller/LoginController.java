@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
-	private final UserService userService = null;
+	private final UserService userService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginForm() {
@@ -31,8 +31,7 @@ public class LoginController {
 			
 			// 세션 : setAttribute("key", value); 생성 -> main이동
 			if(user != null) {
-				session.setAttribute("userId", user.getId());
-				session.setAttribute("userPw", user.getPassword());
+				session.setAttribute("user", user);
 			
 				view = "redirect:/main";
 				return view;

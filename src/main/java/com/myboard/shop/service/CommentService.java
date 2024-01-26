@@ -18,8 +18,8 @@ public class CommentService {
 
 	private final CommentMapper commentMapper;
 	
-	public Comment getCommentById(int id) throws SQLException {
-		return commentMapper.getCommentById(id);
+	public List<Comment> getCommentByBoardId(int boardId) throws SQLException {
+		return commentMapper.getCommentByBoardId(boardId);
 	}
 
 
@@ -29,17 +29,6 @@ public class CommentService {
 	}
 
 	public boolean insertComment(Comment comment) throws SQLException {
-		Date date = new Date(new java.util.Date().getTime());
-		comment = new Comment().builder()
-								.context("zxc")
-								.date(date)
-								.writer("asd")
-								.userId("asd")
-								.boardId(2)
-								.build();
-
-		System.out.println(comment);
-								
 		int result = commentMapper.insertComment(comment);
 		
 		return result == 0 ? false : true;

@@ -79,7 +79,7 @@
 						<%-- <c:if test="${comment.writer == sessionScope.user.userId || sessionScope.user.author == 0}"> --%>
 						<c:if test="${true}">
 							<div>
-								<button type="button" class="replyDeleteBtn btn btn-danger">삭제</button>
+								<button type="button" class="replyDeleteBtn btn btn-danger" data-comment-id="${comment.id}">삭제</button>
 							</div>
 						</c:if>
 					</li>
@@ -94,7 +94,7 @@
 			<div class="form-group">
 				<label for="writer" class="col-sm-2 control-label">댓글 작성자</label>
 				<div class="col-sm-10">
-					<input type="text" id="comment-writer" name="writer" class="form-control" value="${sessionScope.user.userId}" readonly="readonly"/>
+					<input type="text" id="comment-writer" name="writer" class="form-control" value="${sessionScope.user.id}" readonly="readonly"/>
 				</div>
 			</div>
 		
@@ -124,11 +124,12 @@ document.addEventListener("DOMContentLoaded", function () {
         // 작성자와 댓글 내용을 가져옵니다.
         var writer = document.getElementById("comment-writer").value;
         var context = document.getElementById("comment-context").value;
-
+		var boardId = ${board.fileNo};
         // 댓글 정보를 담은 객체를 생성합니다.
         var commentData = {
             writer: writer,
-            context: context
+            context: context,
+            boardId : boardId
         };
 
         // Axios를 사용하여 서버로 데이터를 전송합니다.
@@ -136,10 +137,13 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(function (response) {
                 // 서버 응답을 처리합니다.
                 console.log(response.data);
+                alert("댓글이 작성되었습니다.");
+                window.location.href = "/board/${board.fileNo}";
             })
             .catch(function (error) {
                 // 오류가 발생한 경우 처리합니다.
                 console.error('Error during comment post:', error);
+                alert("실패.");
             });
     });
 });
@@ -149,14 +153,16 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".replyDeleteBtn").addEventListener("click", function () {
         // 알림을 통해 사용자에게 삭제 여부를 확인할 수 있습니다.
         var isConfirmed = confirm("댓글을 삭제하시겠습니까?");
+        var commentId = this.getAttribute('data-comment-id');
 
         if (isConfirmed) {
             // 액시오스를 사용하여 서버로 DELETE 요청을 보냅니다.
-            axios.delete('/comment')
+            axios.delete('/comment/' + commentId)
             .then(function (response) {
                 //ResponseEntity.ok 보내주면
                 console.log(response.data);
                 alert("댓글이 삭제되었습니다.");
+                window.location.href = "/board/${board.fileNo}";
             })
             .catch(function (error) {
             	//아닐시
@@ -177,11 +183,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (isConfirmed) {
             // 액시오스를 사용하여 서버로 DELETE 요청을 보냅니다.
-            axios.delete('/board')
+            axios.delete('/board/${board.fileNo}')
             .then(function (response) {
             	//ResponseEntity.ok 보내주면
                 console.log(response.data);
                 alert("게시글이 삭제되었습니다.");
+                window.location.href = "/main";
             })
             .catch(function (error) {
                 // 아닐시

@@ -6,15 +6,15 @@
 		FROM comment
 	</select>
 	
-	<select id="getCommentById" parameterType="_int" resultMap="comment">
+	<select id="getCommentByBoardId" parameterType="_int" resultMap="comment">
 		SELECT id, context, date, user_id, board_id, writer
-		FROM comment WHERE id = #{id}
+		FROM comment WHERE board_id = #{boardId}
 	</select>
 	
 	<insert id="insertComment"
 			parameterType="com.myboard.shop.dto.Comment">
 		INSERT INTO comment (context, date, writer, user_id, board_id)
-		VALUES(#{context}, #{date}, #{writer}, #{userId}, #{boardId})
+		VALUES(#{context}, now(), #{writer}, #{userId}, #{boardId})
 	</insert>
 	
 	<delete id="deleteComment">

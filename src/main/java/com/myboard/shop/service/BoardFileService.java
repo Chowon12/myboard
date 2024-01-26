@@ -9,8 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.myboard.shop.dto.BoardFile;
 import com.myboard.shop.mapper.BoardFileMapper;
-import com.myboard.shop.mapper.FileMapper;
-
 import lombok.RequiredArgsConstructor;
 
 @Service 

@@ -34,11 +34,11 @@
 	</delete>
 
 	<select id="getUserByIdAndPw"
-		resultType="com.myboard.shop.dto.User">
-		SELECT id, password,author
+		resultMap="user">
+		SELECT id, pw, author
 		FROM user
 		WHERE id = #{id} AND
-		password = #{password}
+		pw = #{password}
 	</select>
 
 
