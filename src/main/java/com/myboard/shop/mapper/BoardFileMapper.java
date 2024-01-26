@@ -8,14 +8,12 @@ import org.apache.ibatis.annotations.Mapper;
 import com.myboard.shop.dto.BoardFile;
 
 @Mapper
-public interface FileMapper {
+public interface BoardFileMapper {
 
 	List<BoardFile> getAllFileList() throws SQLException;
 
-	BoardFile getFileByFileno(int fileno) throws SQLException;
+	BoardFile getFileByFileno(int fileNo) throws SQLException;
 
 	int insertFile(BoardFile file) throws SQLException;
-	
-	BoardFile getFileByfileNo(int fileNo) throws Exception;
 
 }

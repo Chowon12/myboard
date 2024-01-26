@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myboard.shop.mapper.CommentMapper">
-	<select id="getCommentList" resultType="com.myboard.shop.dto.Comment">
+	<select id="getCommentList" resultMap="comment">
 		SELECT id, context, date, user_id, board_id, writer
 		FROM comment
 	</select>
@@ -16,6 +16,11 @@
 		INSERT INTO comment (context, date, writer, user_id, board_id)
 		VALUES(#{context}, #{date}, #{writer}, #{userId}, #{boardId})
 	</insert>
+	
+	<delete id="deleteComment">
+		DELETE FROM comment
+	    WHERE ( #{author} = 0 OR user_id = #{userid} ) AND id = #{id}
+	</delete>
 	
 	<resultMap type="com.myboard.shop.dto.Comment" id="comment">
  		<result property="id" column="id"/>

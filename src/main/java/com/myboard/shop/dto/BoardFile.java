@@ -7,12 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
+ 
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class File {
+public class BoardFile {
 	private int fileNo;
 	private String path;
 	private Date date;
@@ -21,7 +21,7 @@ public class File {
 	private Integer boardId;
 	
 	@Builder
-	public File(int fileNo, String path, Date date, Integer fileSize, String fileName, Integer boardId) {
+	public BoardFile(int fileNo, String path, Date date, Integer fileSize, String fileName, Integer boardId) {
 		super();
 		this.fileNo = fileNo;
 		this.path = path;

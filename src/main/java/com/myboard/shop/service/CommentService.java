@@ -7,11 +7,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.myboard.shop.dto.Comment;
+import com.myboard.shop.dto.User;
 import com.myboard.shop.mapper.CommentMapper;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Service 
 @RequiredArgsConstructor
 public class CommentService {
 
@@ -41,6 +42,12 @@ public class CommentService {
 								
 		int result = commentMapper.insertComment(comment);
 		
+		return result == 0 ? false : true;
+	}
+
+
+	public boolean deleteComment(int id, Integer author, String userid) throws SQLException {
+		int result = commentMapper.deleteComment(id, author, userid);	
 		return result == 0 ? false : true;
 	}
 }

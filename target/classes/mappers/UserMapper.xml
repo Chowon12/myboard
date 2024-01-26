@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myboard.shop.mapper.UserMapper">
-	<select id="getAllUserList" resultType="com.myboard.shop.dto.User">
+	<select id="getAllUserList" resultMap="user">
 		SELECT id, pw, author FROM user
 	</select>
 	<select id="getUserById" parameterType="string" resultMap="user">
 		SELECT id, pw, author FROM user WHERE id = #{id}
 	</select>
-	
+
 	<insert id="insertUser"
-			parameterType="com.myboard.shop.dto.User">
-		INSERT INTO user 
+		parameterType="com.myboard.shop.dto.User">
+		INSERT INTO user
 		VALUES (#{id}, #{password}, #{author})
-	
+
 	</insert>
-	<select id="getUserByUserId" parameterType="string"
-		resultType="com.myboard.shop.dto.User">
-		SELECT id, password, author
+	<select id="getUserByUserId" parameterType="string"	resultMap="user">
+		SELECT id, pw, author
 		FROM user
 		WHERE id = #{id}
 	</select>
@@ -27,16 +26,25 @@
 		SET password = #{password}
 		WHERE id = #{id}
 	</update>
-	
-	<delete id="deleteUser" parameterType="com.myboard.shop.dto.User">
+
+	<delete id="deleteUser"
+		parameterType="com.myboard.shop.dto.User">
 		DELETE FROM user
 		WHERE id = #{id} AND ;
 	</delete>
-	
-	
+
+	<select id="getUserByIdAndPw"
+		resultType="com.myboard.shop.dto.User">
+		SELECT id, password,author
+		FROM user
+		WHERE id = #{id} AND
+		password = #{password}
+	</select>
+
+
 	<resultMap type="com.myboard.shop.dto.User" id="user">
- 		<result property="id" column="id"/>
- 		<result property="password" column="pw"/>
- 		<result property="author" column="author"/>
- 	</resultMap>
+		<result property="id" column="id" />
+		<result property="password" column="pw" />
+		<result property="author" column="author" />
+	</resultMap>
 </mapper>

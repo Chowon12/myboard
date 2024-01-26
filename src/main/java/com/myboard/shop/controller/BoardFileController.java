@@ -3,30 +3,35 @@ package com.myboard.shop.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import java.sql.SQLException;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myboard.shop.dto.Board;
-import com.myboard.shop.dto.File;
-import com.myboard.shop.service.FileService;
+import com.myboard.shop.dto.BoardFile;
+import com.myboard.shop.dto.User;
+import com.myboard.shop.service.BoardFileService;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class FileController {
+public class BoardFileController {
 	
-	private final FileService fileService;
+	private final BoardFileService fileService;
 	
 	@GetMapping(value="/files")
 	public String getAllFileList(Model model) {
-		List<File> fileList;
+		List<BoardFile> fileList;
 		try {
 			fileList = fileService.getAllFileList();
 			model.addAttribute("fileList", fileList);
@@ -40,7 +45,7 @@ public class FileController {
 	
 	@GetMapping(value="/file/{fileno}")
 	public String getFileByFileno(@PathVariable int fileno, Model model) {
-		File file = null;
+		BoardFile file = null;
 		try {
 			file = fileService.getFileByFileno(fileno);
 			System.out.println(file);
@@ -63,4 +68,5 @@ public class FileController {
 		
 		return view;
 	}
+	
 }

@@ -7,31 +7,32 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.myboard.shop.dto.File;
+import com.myboard.shop.dto.BoardFile;
+import com.myboard.shop.mapper.BoardFileMapper;
 import com.myboard.shop.mapper.FileMapper;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Service 
 @RequiredArgsConstructor
-public class FileService {
+public class BoardFileService {
 
-	private final FileMapper fileMapper;
+	private final BoardFileMapper fileMapper;
 
-	public List<File> getAllFileList() throws SQLException {
-		List<File> files = fileMapper.getAllFileList();
+	public List<BoardFile> getAllFileList() throws SQLException {
+		List<BoardFile> files = fileMapper.getAllFileList();
 		return null;
 	}
 
-	public File getFileByFileno(int fileno) throws SQLException {
-		File file = fileMapper.getFileByFileno(fileno);
+	public BoardFile getFileByFileno(int fileno) throws SQLException {
+		BoardFile file = fileMapper.getFileByFileno(fileno);
 		return file;
 	}
 
 	public boolean insertFile(MultipartFile file) throws SQLException {
 		int result = 0;
 		Date date = new Date(new java.util.Date().getTime());
-		File realFile = new File().builder()
+		BoardFile realFile = new BoardFile().builder()
 									.path("asd")
 									.date(date)
 									.fileSize(1)

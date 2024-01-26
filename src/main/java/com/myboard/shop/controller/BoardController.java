@@ -3,20 +3,26 @@ package com.myboard.shop.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myboard.shop.dto.Board;
-import com.myboard.shop.dto.File;
+import com.myboard.shop.dto.BoardFile;
+import com.myboard.shop.dto.Comment;
+import com.myboard.shop.dto.User;
 import com.myboard.shop.service.BoardService;
-import com.myboard.shop.service.FileService;
+import com.myboard.shop.service.BoardFileService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,12 +30,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardController {
 	private final BoardService boardService;
-	private final FileService fileService;
+	private final BoardFileService fileService;
 	
-	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.GET)
+	@RequestMapping(value = "/board/${board.fileNo}", method = RequestMethod.GET)
 	public String getBoardByfileNo(@PathVariable int fileNo, Model model) {
 		Board board = null;
-		File file = null;
+		BoardFile file = null;
 		try {
 			board = boardService.getBoardByfileNo(fileNo);
 			file = fileService.getFileByFileno(fileNo);
@@ -48,7 +54,7 @@ public class BoardController {
 	public String updateBoardForm(@PathVariable int fileNo, Model model) throws Exception {
 		
 		Board board = boardService.getBoardByfileNo(fileNo);
-		File file = fileService.getFileByFileno(fileNo);
+		BoardFile file = fileService.getFileByFileno(fileNo);
 		
 		model.addAttribute("board", board);
 		model.addAttribute("file", file);
@@ -81,7 +87,7 @@ public class BoardController {
 			}
 			
 			if(result) {
-				view = "redirect:/boards/" + fileNo;
+				view = "redirect:/board/" + fileNo;
 				return view;
 			}
 		} catch (Exception e) {
@@ -120,17 +126,41 @@ public class BoardController {
 		return "boardDetail";
 	}
 	
-	@PostMapping(value = "/board")
-	public String insertBoard(Board board) {
+	@PostMapping(value = "/boardreg")
+	public String insertBoard(@ModelAttribute Board newBoard) {
 		String view = "error";
+		boolean result = false;
 		try {
-			boolean result = boardService.insertBoard(board);
-			view = "boardReg";
+			result = boardService.insertBoard(newBoard);
+			System.out.println(result);
+			
+			if(result) {
+				view = "boardReg";
+				return view;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return view;
+		}
+		
+		return view;
+	}
+	
+	@DeleteMapping(value = "/board")
+	public String deleteBoard(@RequestBody Board board, HttpSession session) {
+		String view = "error";
+		User user = (User) session.getAttribute("user");
+		System.out.println(user);
+		try {
+			boolean result = boardService.deleteBoard(board.getFileNo(), user.getAuthor(), user.getId());
+			if(result) {
+				view = "redirect:/boards";
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		
 		return view;
 	}
+	
 }

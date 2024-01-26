@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.myboard.shop.mapper.FileMapper">
-	<select id="getAllFileList" resultType="com.myboard.shop.dto.File">
+<mapper namespace="com.myboard.shop.mapper.BoardFileMapper">
+	<select id="getAllFileList" resultMap="board_file">
 		SELECT file_path, file_no, file_name, date, file_size, board_id
-		FROM file
+		FROM board_file
 	</select>
 	
-	<select id="getFileByFileno" parameterType="_int" resultMap="file">
+	<select id="getFileByFileno" parameterType="_int" resultMap="board_file">
 		SELECT file_path, file_no, file_name, date, file_size, board_id
-		FROM file WHERE file_no = #{fileno}
+		FROM board_file WHERE file_no = #{fileNo}
 	</select>
 	
 	<insert id="insertFile"
-		parameterType="com.myboard.shop.dto.File">
-	INSERT INTO file (path, date, file_size, file_name, board_id)
+		parameterType="com.myboard.shop.dto.BoardFile">
+	INSERT INTO board_file (file_path, date, file_size, file_name, board_id)
 	VALUES (#{path}, #{date}, #{fileSize}, #{fileName}, #{boardId})
 
 	</insert>
 	
-	<resultMap type="com.myboard.shop.dto.File" id="file">
+	<resultMap type="com.myboard.shop.dto.BoardFile" id="board_file">
  		<result property="path" column="file_path"/>
  		<result property="fileNo" column="file_no"/>
  		<result property="fileName" column="file_name"/>

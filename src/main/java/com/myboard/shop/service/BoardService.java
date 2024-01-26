@@ -5,13 +5,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myboard.shop.dto.Board;
+import com.myboard.shop.dto.Comment;
 import com.myboard.shop.mapper.BoardMapper;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Service 
 @RequiredArgsConstructor
 public class BoardService {
 	
@@ -45,9 +47,9 @@ public class BoardService {
 		return board;
 	}
 
-	public boolean insertBoard(Board board) throws SQLException {
+	public boolean insertBoard(Board newBoard) throws SQLException {
 		Date date = new Date(new java.util.Date().getTime());
-		board = new Board().builder()
+		newBoard = new Board().builder()
 							.title("asd/asd/asd")
 							.context("asd")
 							.regDate(date)
@@ -55,10 +57,15 @@ public class BoardService {
 							.userId("asd")
 							.build();
 
-		System.out.println(board);
+		System.out.println(newBoard);
 		
-		int result = boardMapper.insertBoard(board);
+		int result = boardMapper.insertBoard(newBoard);
 		
+		return result == 0 ? false : true;
+	}
+
+	public boolean deleteBoard(int fileno, Integer author, String id) throws SQLException {
+		int result = boardMapper.deleteBoard(fileno, author, id);	
 		return result == 0 ? false : true;
 	}
 }
