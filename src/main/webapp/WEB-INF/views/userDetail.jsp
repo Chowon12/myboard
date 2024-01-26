@@ -14,7 +14,7 @@
 	<%@ include file="header.jsp" %>
 
 <%-- <c:if test="${sessionScope.author == 0 || sessionScope.id == user.id}"> --%>
-<c:if test="${not empty sessionScope.id}">
+<c:if test="${true}">
 <!-- action, method -->
 <form action="/modify/user" method="GET" name="detailForm" id="detailForm">
 	<table align="center" cellpadding="5" cellspacing="1" width="600" border="1">

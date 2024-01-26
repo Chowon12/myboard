@@ -66,8 +66,6 @@ public class UserController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 		return view;
 	}
 	
