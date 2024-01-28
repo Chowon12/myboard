@@ -3,20 +3,28 @@ package com.myboard.shop.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myboard.shop.dto.Board;
-import com.myboard.shop.dto.File;
+import com.myboard.shop.dto.BoardFile;
+import com.myboard.shop.dto.Comment;
+import com.myboard.shop.dto.User;
 import com.myboard.shop.service.BoardService;
-import com.myboard.shop.service.FileService;
+import com.myboard.shop.service.CommentService;
+import com.myboard.shop.service.BoardFileService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,64 +32,65 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardController {
 	private final BoardService boardService;
-	private final FileService fileService;
-	
+	private final BoardFileService fileService;
+	private final CommentService commentService;
+
 	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.GET)
 	public String getBoardByfileNo(@PathVariable int fileNo, Model model) {
 		Board board = null;
-		File file = null;
+		BoardFile file = null;
+		List<Comment> comments = null;
 		try {
 			board = boardService.getBoardByfileNo(fileNo);
-			file = fileService.getFileByFileno(fileNo);
-			System.out.println(file);
+			comments = commentService.getCommentByBoardId(board.getFileNo());
+//			file = fileService.getFileByFileno(fileNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(board);
 		model.addAttribute("board", board);
-		model.addAttribute("file", file);
+		model.addAttribute("comments", comments);
+//		model.addAttribute("file", file);
 		return "boardDetail";
 	}
-	
+
 	// /modify/board/10
 	@RequestMapping(value = "/modify/board/{fileNo}", method = RequestMethod.GET)
 	public String updateBoardForm(@PathVariable int fileNo, Model model) throws Exception {
-		
+
 		Board board = boardService.getBoardByfileNo(fileNo);
-		File file = fileService.getFileByFileno(fileNo);
-		
+		BoardFile file = fileService.getFileByFileno(fileNo);
+
 		model.addAttribute("board", board);
 		model.addAttribute("file", file);
-		
+
 		return "boardReg";
 	}
-	
+
 	// /board/10
-	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.PUT)
-	public String updateBoard(@PathVariable int fileNo,
-							@ModelAttribute Board newBoard,
-							MultipartFile file) throws Exception {
+	@RequestMapping(value = "/board/u", method = RequestMethod.POST)
+	public String updateBoard(@RequestBody Board newBoard) throws Exception {
 		System.out.println("PUT");
 		String view = "error";
-		
-		
+
+		System.out.println(newBoard);
 		Board board = null;
 		boolean result = false;
 		try {
-			
-			board = boardService.getBoardByfileNo(fileNo);
-			
+
+			board = boardService.getBoardByfileNo(newBoard.getFileNo());
+			System.out.println(board);
 			board.setTitle(newBoard.getTitle());
 			board.setContext(newBoard.getContext());
-			
-			result = boardService.updateBoard(newBoard);
-			
-			if(file != null) {
-				fileService.insertFile(file);
-			}
-			
-			if(result) {
-				view = "redirect:/boards/" + fileNo;
+			System.out.println(newBoard);
+			result = boardService.updateBoard(board);
+
+//			if(file != null) {
+//				fileService.insertFile(file);
+//			}
+
+			if (result) {
+				view = "redirect:/board/" + newBoard.getFileNo();
 				return view;
 			}
 		} catch (Exception e) {
@@ -90,9 +99,8 @@ public class BoardController {
 		}
 		return view;
 	}
-	
-	
-	@GetMapping(value="/boards")
+
+	@GetMapping(value = "/boards")
 	public String getBoardList(Model model) {
 		List<Board> boardList;
 		try {
@@ -104,11 +112,10 @@ public class BoardController {
 		}
 		return "main";
 	}
-	
-	
-	@GetMapping(value="/board/{title}")
+
+	@GetMapping(value = "/board/search/{title}")
 	public String getBoardByTitle(@PathVariable String title, Model model) {
-		Board board = null;
+		List<Board> board = null;
 		try {
 			board = boardService.getBoardByTitle(title);
 			System.out.println(board);
@@ -119,18 +126,59 @@ public class BoardController {
 		}
 		return "boardDetail";
 	}
-	
-	@PostMapping(value = "/board")
-	public String insertBoard(Board board) {
+
+	// /reg/board
+	@RequestMapping(value = "/reg/board", method = RequestMethod.GET)
+	public String insertBoardForm(Model model) throws Exception {
+
+		return "boardReg";
+	}
+
+	@PostMapping(value = "/board/i")
+	public String insertBoard(Board newBoard, HttpSession session) {
 		String view = "error";
+		boolean result = false;
+		Object objUser = session.getAttribute("user");
+		if (objUser != null) {
+			try {
+				User user = (User) objUser;
+				newBoard.setUserId(user.getId());
+				newBoard.setWriter(user.getId());
+				result = boardService.insertBoard(newBoard);
+
+				if (result) {
+					view = "boardReg";
+					return view;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return view;
+			}
+		} else {
+			session.setAttribute("message", "로그인이 되어있지 않습니다");
+		}
+
+		return view;
+	}
+
+	@DeleteMapping(value = "/board/{fileNo}")
+	public ResponseEntity<String> deleteBoard(@PathVariable("fileNo") int fileNo, HttpSession session) {
+		String view = "error";
+		System.out.println(fileNo);
+		System.out.println("delete메서드");
+		User user = (User) session.getAttribute("user");
+		System.out.println(user);
 		try {
-			boolean result = boardService.insertBoard(board);
-			view = "boardReg";
+			boolean result = boardService.deleteBoard(fileNo, user.getAuthor(), user.getId());
+			System.out.println(result);
+			if (result) {
+				return ResponseEntity.ok("삭제성공");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
-		return view;
+
+		return ResponseEntity.status(500).body("삭제실패");
 	}
+
 }
