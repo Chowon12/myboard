@@ -1,28 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myboard.shop.mapper.CommentMapper">
-	<select id="getCommentList" resultType="com.myboard.shop.dto.Comment">
-		SELECT id, context, date, user_id, board_id, writer
+	<select id="getCommentList" resultMap="comment">
+		SELECT id, context, date,
+		user_id, board_id, writer
 		FROM comment
 	</select>
-	
-	<select id="getCommentById" parameterType="_int" resultMap="comment">
+
+	<select id="getCommentByBoardId" parameterType="_int"
+		resultMap="comment">
 		SELECT id, context, date, user_id, board_id, writer
-		FROM comment WHERE id = #{id}
+		FROM
+		comment WHERE board_id = #{boardId}
 	</select>
-	
+
 	<insert id="insertComment"
-			parameterType="com.myboard.shop.dto.Comment">
-		INSERT INTO comment (context, date, writer, user_id, board_id)
-		VALUES(#{context}, #{date}, #{writer}, #{userId}, #{boardId})
+		parameterType="com.myboard.shop.dto.Comment">
+		INSERT INTO comment (context, date, writer, user_id,
+		board_id)
+		VALUES(#{context}, now(), #{writer}, #{userId}, #{boardId})
 	</insert>
-	
+
+	<!-- <delete id="deleteComment"> DELETE FROM comment WHERE ( #{author} = 
+		0 OR user_id = #{userid} ) AND id = #{id} </delete> -->
+
+	<!-- Delete comment by commentId -->
+	<delete id="deleteComment" parameterType="_int">
+		DELETE FROM comment
+		WHERE id = #{id}
+	</delete>
+
+	<!-- Delete all comments by boardId -->
+	<delete id="deleteCommentByBoardId" parameterType="_int">
+		DELETE FROM comment
+		WHERE board_id = #{boardId}
+	</delete>
+
 	<resultMap type="com.myboard.shop.dto.Comment" id="comment">
- 		<result property="id" column="id"/>
- 		<result property="context" column="context"/>
- 		<result property="date" column="date"/>
- 		<result property="writer" column="writer"/>
- 		<result property="userId" column="user_id"/>
- 		<result property="boardId" column="board_id"/>
- 	</resultMap>
+		<result property="id" column="id" />
+		<result property="context" column="context" />
+		<result property="date" column="date" />
+		<result property="writer" column="writer" />
+		<result property="userId" column="user_id" />
+		<result property="boardId" column="board_id" />
+	</resultMap>
 </mapper>
