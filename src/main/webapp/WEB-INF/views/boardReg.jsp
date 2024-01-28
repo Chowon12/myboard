@@ -52,10 +52,10 @@
 		            <label for="content" class="col-sm-2 control-label">내용</label>
 		            <c:choose>
 		            	<c:when test="${empty board}">		           
-		            		<textarea id="content" name="content" class="form-control wide-textarea"></textarea>
+		            		<textarea id="context" name="context" class="form-control wide-textarea"></textarea>
 		        		</c:when>
 		        		<c:otherwise>
-		        			<textarea id="content" name="content" class="form-control wide-textarea">${board.context}</textarea>
+		        			<textarea id="context" name="context" class="form-control wide-textarea">${board.context}</textarea>
 		        		</c:otherwise>		        	
 		        	</c:choose>
 		        

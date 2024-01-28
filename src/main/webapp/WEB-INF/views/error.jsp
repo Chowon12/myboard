@@ -23,7 +23,7 @@
 	<br><hr><br>
 	
 	<div align="center">
-		<h3>??</h3>
+		<h3>${sessionScope.message}</h3>
 	</div>
 	 
 	<br>

@@ -19,7 +19,7 @@
 	
 	<select id="getBoardByfileNo" parameterType="_int"
 		resultMap="board">
-		SELECT board_id, title, context
+		SELECT board_id, title, context, reg_date, writer, update_date, user_id
 		FROM board
 		WHERE board_id = #{fileNo}
 	</select>

@@ -44,7 +44,6 @@ public class BoardController {
 			board = boardService.getBoardByfileNo(fileNo);
 			comments = commentService.getCommentByBoardId(board.getFileNo());
 //			file = fileService.getFileByFileno(fileNo);
-			System.out.println(file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -133,20 +132,27 @@ public class BoardController {
 	}
 	
 	@PostMapping(value = "/boardReg")
-	public String insertBoard(@ModelAttribute Board newBoard) {
+	public String insertBoard(Board newBoard, HttpSession session) {
 		String view = "error";
 		boolean result = false;
-		try {
-			result = boardService.insertBoard(newBoard);
-			System.out.println(result);
-			
-			if(result) {
-				view = "boardReg";
+		Object objUser = session.getAttribute("user");
+		if (objUser != null) {
+			try {
+				User user = (User) objUser;
+				newBoard.setUserId(user.getId());
+				newBoard.setWriter(user.getId());
+				result = boardService.insertBoard(newBoard);
+				
+				if(result) {
+					view = "boardReg";
+					return view;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 				return view;
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return view;
+		} else {
+			session.setAttribute("message", "로그인이 되어있지 않습니다");
 		}
 		
 		return view;
