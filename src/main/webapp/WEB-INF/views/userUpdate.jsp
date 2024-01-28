@@ -13,11 +13,11 @@
 
 <%@ include file="header.jsp" %>
 
-<form action="/user" method="POST">
+<form action="/user/u" method="POST">
 <!-- PUT으로 데이터 보낼 때 넣어줘야 함. -->
 <!-- 파일을 가지고 수정할 때 무조건 post임. 히든메소드로 put을 넣어놨어도 소용없음. -->
 <!-- enctype="multipart/form-data" 타입이 multipart인 이상 무조건 post메소드만 실행됨. -->
-<input type="hidden" name="_method" value="PUT">
+<input type="hidden" name="_method" value="POST">
 <table align="center" cellpadding="5" cellspacing="1" width="600" border="1">
     <tr>
         <td width="1220" height="20" colspan="2" bgcolor="#336699">
@@ -49,7 +49,7 @@
         	<b>
         		<span style="font-size:9pt;">
         			<!-- 부서명 출력 -->
-        			<input type=text name="dname" size="30" value="${user.password}">
+        			<input type=text name="password" size="30" value="${user.password}">
         		</span>
         	</b>
         </td>
@@ -62,7 +62,7 @@
         	<b>
         		<span style="font-size:9pt;">
         			<!-- 부서위치 출력 -->
-        			<input type=text name="loc" size="30" value="${user.author}" readonly>
+        			<input type=text name="author" size="30" value="${user.author}" readonly>
         		</span>
         	</b>
         </td>

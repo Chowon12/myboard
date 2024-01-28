@@ -17,10 +17,11 @@ public interface UserMapper {
 
 	int insertUser(User user) throws SQLException;
 	
-	int updateUserPW(String id) throws SQLException;
+	int updateUserPW(@Param("id")String id, @Param("password")String password) throws SQLException;
 
-	int deleteUser(@Param("user") User user, 
-					@Param("sessionAuthor") Integer sessionAuthor) throws SQLException;
+	int deleteUser(@Param("userId") String id, 
+					@Param("sessionAuthor") Integer sessionAuthor,
+					@Param("sessionId") String sessionId) throws SQLException;
 
 	User getUserByIdAndPw(@Param("id") String id, @Param("password") String password) throws SQLException;
 

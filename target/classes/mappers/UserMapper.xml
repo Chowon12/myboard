@@ -23,14 +23,14 @@
 	<update id="updateUserPW"
 		parameterType="com.myboard.shop.dto.User">
 		UPDATE user
-		SET password = #{password}
+		SET pw = #{password}
 		WHERE id = #{id}
 	</update>
 
 	<delete id="deleteUser"
 		parameterType="com.myboard.shop.dto.User">
 		DELETE FROM user
-		WHERE id = #{id} AND ;
+		WHERE ( #{sessionAuthor} = 0 OR id = #{sessionId} ) AND id = #{userId}
 	</delete>
 
 	<select id="getUserByIdAndPw"

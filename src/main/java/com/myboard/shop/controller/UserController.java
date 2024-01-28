@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,7 +71,7 @@ public class UserController {
 		return view;
 	}
 	
-	@RequestMapping(value = "/modify/user", method = RequestMethod.GET)
+	@RequestMapping(value = "/modify/user/{id}", method = RequestMethod.GET)
 	public String updateUserForm(String id, Model model) {
 
 		User user;
@@ -81,32 +82,29 @@ public class UserController {
 			e.printStackTrace();
 		}
 		
-		
 		return "userUpdate";
 	}
 	
-	@RequestMapping(value = "/user", method = RequestMethod.PUT)
-	public String updateUserPW(String id,
-										@ModelAttribute User newUser) {
+	@RequestMapping(value = "/user/u", method = RequestMethod.POST)
+	public String updateUserPW(@ModelAttribute User newUser) {
 		
 		System.out.println("POST");
 		String view = "error";
 		
-		System.out.println("아이디" + id);
 		System.out.println(newUser);
 		
 		
 		User user = null;
 		boolean result = false;
 		try {
-			user = userService.getUserByUserId(id);
+			user = userService.getUserByUserId(newUser.getId());
 			
-			user.setPassword(newUser.getPassword());
-			
-			result = userService.updateUserPW(id);
-			
+//			user.setPassword(newUser.getPassword());
+			System.out.println(user);
+			result = userService.updateUserPW(user.getId(), newUser.getPassword());
+			System.out.println(result);
 			if(result) {
-				view = "redirect:/user/" + id;
+				view = "redirect:/user/" + user.getId();
 				return view;
 			}
 		} catch (Exception e) {
@@ -116,21 +114,22 @@ public class UserController {
 		return view;
 	}
 	
-	@DeleteMapping(value = "/user")
-	public String deleteUser(@RequestBody User user, HttpSession session) {
+	@DeleteMapping(value = "/user/{userId}")
+	public ResponseEntity<String> deleteUser(@PathVariable String userId, HttpSession session) {
 		String view = "error";
 		User userSession = (User) session.getAttribute("user");
-		System.out.println(user);
+		System.out.println("delete " + userId);
 		try {
-			boolean result = userService.deleteUser(user, userSession.getAuthor());
+			boolean result = userService.deleteUser(userId, userSession.getAuthor(), userSession.getId());
+			System.out.println(result);
 			if(result) {
-				view = "redirect:/users";
+				return ResponseEntity.ok("삭제성공");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return view;
+		return ResponseEntity.status(500).body("삭제실패");
 	}
 	
 	@GetMapping(value = "/user-insert")

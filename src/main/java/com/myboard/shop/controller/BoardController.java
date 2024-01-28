@@ -68,31 +68,31 @@ public class BoardController {
 	}
 	
 	// /board/10
-	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.PUT)
-	public String updateBoard(@PathVariable int fileNo,
-							@ModelAttribute Board newBoard,
-							MultipartFile file) throws Exception {
+	@RequestMapping(value = "/board/u", method = RequestMethod.POST)
+	public String updateBoard(
+			@RequestBody Board newBoard
+							) throws Exception {
 		System.out.println("PUT");
 		String view = "error";
 		
-		
+		System.out.println(newBoard);
 		Board board = null;
 		boolean result = false;
 		try {
 			
-			board = boardService.getBoardByfileNo(fileNo);
-			
+			board = boardService.getBoardByfileNo(newBoard.getFileNo());
+			System.out.println(board);
 			board.setTitle(newBoard.getTitle());
 			board.setContext(newBoard.getContext());
+			System.out.println(newBoard);
+			result = boardService.updateBoard(board);
 			
-			result = boardService.updateBoard(newBoard);
-			
-			if(file != null) {
-				fileService.insertFile(file);
-			}
+//			if(file != null) {
+//				fileService.insertFile(file);
+//			}
 			
 			if(result) {
-				view = "redirect:/board/" + fileNo;
+				view = "redirect:/board/" + newBoard.getFileNo();
 				return view;
 			}
 		} catch (Exception e) {

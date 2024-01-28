@@ -32,10 +32,10 @@ public class UserService {
 		return userMapper.getUserByUserId(id); 
 	}
 
-	public boolean updateUserPW(String id) throws SQLException {
+	public boolean updateUserPW(String id, String password) throws SQLException {
 		boolean result = false;
 
-		int res = userMapper.updateUserPW(id);
+		int res = userMapper.updateUserPW(id, password);
 
 		if (res != 0) {
 			result = true;
@@ -47,8 +47,8 @@ public class UserService {
 
 	}
 
-	public boolean deleteUser(User user, Integer sessionAuthor) throws SQLException {
-		int result = userMapper.deleteUser(user, sessionAuthor);	
+	public boolean deleteUser(String id, Integer sessionAuthor, String sessionId) throws SQLException {
+		int result = userMapper.deleteUser(id, sessionAuthor, sessionId);
 		return result == 0 ? false : true;
 	}
 
