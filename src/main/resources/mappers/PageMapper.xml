@@ -9,81 +9,68 @@
 		parameterType="com.myboard.shop.dto.Board">
 		INSERT INTO board (board_id, title, context, reg_date,
 		update_date, writer, user_id)
-		VALUES (#{fileNo}, #{title}, #{context}, #{regDate},
+		VALUES (#{fileNo}, #{title}, #{context},
+		#{regDate},
 		#{updateDate}, #{writer}, #{userId})
 	</insert>
 
 
 	<select id="getBoardBySearchKeyword" parameterType="string"
 		resultType="com.myboard.shop.dto.Board">
-
-		SELECT 
-			board_id AS fileNo, 
-			title, 
-			context, 
-			reg_date AS regDate, 
-			writer, 
-			user_id AS userId, 
-			update_date AS updateDate
-		FROM board
-		<trim prefix="WHERE">
-			<if test="searchKeyword != null">
-				content LIKE CONCAT('%',#{searchKeyword},'%')
-			</if>
-		</trim>
+		SELECT * FROM board
+		WHERE 1=1 AND
+		<choose>
+			<when test="searchKeyword != null">
+				(title LIKE CONCAT('%',#{searchKeyword},'%') OR
+				context LIKE CONCAT('%',#{searchKeyword},'%'))
+			</when>
+		</choose>
 	</select>
-
 
 	<select id="getBoardbyPage"
 		parameterType="com.myboard.shop.dto.PageRequest"
 		resultType="com.myboard.shop.dto.Board">
 		<bind name="start" value="(pageNum-1)*amount" />
 
-		SELECT 
-			board_id AS fileNo, 
-			title, 
-			context, 
-			reg_date AS regDate, 
-			writer, 
-			user_id AS userId, 
-			update_date AS updateDate
+		SELECT
+		board_id AS fileNo,
+		title,
+		context,
+		reg_date AS regDate,
+		writer,
+		user_id AS userId,
+		update_date AS updateDate
 		FROM board
 		LIMIT #{pageNum}, #{amount}
 	</select>
 
 	<select id="getTotalCount"
-			parameterType="com.myboard.shop.dto.PageRequest"
-			resultType="_int">
+		parameterType="com.myboard.shop.dto.PageRequest" resultType="_int">
 		SELECT COUNT(board_id)
 		FROM board
 		<trim prefix="WHERE">
 			<if test="searchKeyword != null">
-				context LIKE CONCAT('%',#{searchKeyword},'%')
+				(title LIKE CONCAT('%',#{searchKeyword},'%') OR
+				context LIKE CONCAT('%',#{searchKeyword},'%'))
 			</if>
 		</trim>
 	</select>
-	
+
 	<select id="getBoardBySearchWithPage"
-			parameterType="com.myboard.shop.dto.PageRequest"
-			resultType="com.myboard.shop.dto.Board">
-		<bind name="page" value="(pageNum-1)*amount"/>
-		
-		SELECT 
-			board_id AS fileNo, 
-			title, 
-			context, 
-			reg_date AS regDate, 
-			writer, 
-			user_id AS userId, 
-			update_date AS updateDate
+		parameterType="com.myboard.shop.dto.PageRequest"
+		resultType="com.myboard.shop.dto.Board">
+		<bind name="start" value="(pageNum-1)*amount" />
+		SELECT board_id AS fileNo, title, context, reg_date AS regDate,
+		update_date AS updateDate, writer, user_id AS userId
 		FROM board
 		<trim prefix="WHERE">
 			<if test="searchKeyword != null">
-				context LIKE CONCAT('%',#{searchKeyword},'%')
+				(title LIKE CONCAT('%',#{searchKeyword},'%') OR
+				context LIKE CONCAT('%',#{searchKeyword},'%'))	
 			</if>
 		</trim>
-		LIMIT #{page}, #{amount}
-	
+		LIMIT #{start}, #{amount}
+
 	</select>
 
 

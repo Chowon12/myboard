@@ -34,7 +34,6 @@ public class BoardController {
 	private final BoardService boardService;
 	private final BoardFileService fileService;
 	private final CommentService commentService;
-	
 	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.GET)
 	public String getBoardByfileNo(@PathVariable int fileNo, Model model) {
 		Board board = null;
@@ -53,57 +52,36 @@ public class BoardController {
 //		model.addAttribute("file", file);
 		return "boardDetail";
 	}
-	
+
 	// /modify/board/10
 	@RequestMapping(value = "/modify/board/{fileNo}", method = RequestMethod.GET)
 	public String updateBoardForm(@PathVariable int fileNo, Model model) throws Exception {
-		
+
 		Board board = boardService.getBoardByfileNo(fileNo);
 		BoardFile file = fileService.getFileByFileno(fileNo);
-		
 		model.addAttribute("board", board);
 		model.addAttribute("file", file);
-		
+
 		return "boardReg";
 	}
-	
-	// /board/10
-	@RequestMapping(value = "/board/u", method = RequestMethod.POST)
-	public String updateBoard(
-			@RequestBody Board newBoard
-							) throws Exception {
-		System.out.println("PUT");
-		String view = "error";
-		
-		System.out.println(newBoard);
-		Board board = null;
-		boolean result = false;
-		try {
-			
-			board = boardService.getBoardByfileNo(newBoard.getFileNo());
-			System.out.println(board);
-			board.setTitle(newBoard.getTitle());
-			board.setContext(newBoard.getContext());
-			System.out.println(newBoard);
-			result = boardService.updateBoard(board);
-			
-//			if(file != null) {
-//				fileService.insertFile(file);
-//			}
-			
-			if(result) {
-				view = "redirect:/board/" + newBoard.getFileNo();
-				return view;
+
+	@PostMapping(value = "/board/u")
+	public String updateBoard(@ModelAttribute Board newBoard, HttpSession session) throws SQLException {
+		User user = (User) session.getAttribute("user");
+		if (user != null && (user.getAuthor() == 0 || boardService.isAuthor(newBoard.getFileNo(), user.getId()))) {
+			try {
+				boolean result = boardService.updateBoard(newBoard);
+				if (result) {
+					return "redirect:/board/" + newBoard.getFileNo();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return view;
 		}
-		return view;
+		return "error";
 	}
-	
-	
-	@GetMapping(value="/boards")
+
+	@GetMapping(value = "/boards")
 	public String getBoardList(Model model) {
 		List<Board> boardList;
 		try {
@@ -115,9 +93,8 @@ public class BoardController {
 		}
 		return "main";
 	}
-	
-	
-	@GetMapping(value="/board/search/{title}")
+
+	@GetMapping(value = "/board/search/{title}")
 	public String getBoardByTitle(@PathVariable String title, Model model) {
 		List<Board> board = null;
 		try {
@@ -130,8 +107,15 @@ public class BoardController {
 		}
 		return "boardDetail";
 	}
-	
-	@PostMapping(value = "/boardReg")
+
+	// /reg/board
+	@RequestMapping(value = "/reg/board", method = RequestMethod.GET)
+	public String insertBoardForm(Model model) throws Exception {
+
+		return "boardReg";
+	}
+
+	@PostMapping(value = "/board/i")
 	public String insertBoard(Board newBoard, HttpSession session) {
 		String view = "error";
 		boolean result = false;
@@ -142,8 +126,8 @@ public class BoardController {
 				newBoard.setUserId(user.getId());
 				newBoard.setWriter(user.getId());
 				result = boardService.insertBoard(newBoard);
-				
-				if(result) {
+
+				if (result) {
 					view = "boardReg";
 					return view;
 				}
@@ -154,28 +138,25 @@ public class BoardController {
 		} else {
 			session.setAttribute("message", "로그인이 되어있지 않습니다");
 		}
-		
+
 		return view;
 	}
-	
-	@DeleteMapping(value = "/board/{fileNo}")
-	public ResponseEntity<String> deleteBoard(@PathVariable("fileNo") int fileNo, HttpSession session) {
-		String view = "error";
-		System.out.println(fileNo);
-		System.out.println("delete메서드");
+
+	@RequestMapping(value = "/board/{fileNo}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deleteBoard(@PathVariable("fileNo") int fileNo, HttpSession session) throws SQLException {
 		User user = (User) session.getAttribute("user");
-		System.out.println(user);
-		try {
-			boolean result = boardService.deleteBoard(fileNo, user.getAuthor(), user.getId());
-			System.out.println(result);
-			if(result) {
-				return ResponseEntity.ok("삭제성공");
+		if (user != null && (user.getAuthor() == 0 || boardService.isAuthor(fileNo, user.getId()))) {
+			try {
+				// 해당 보드와 해당 보드에 연결된 모든 댓글을 삭제합니다.
+				boardService.deleteBoardAndComments(fileNo);
+				return ResponseEntity.ok("보드와 댓글 삭제 성공");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return ResponseEntity.status(500).body("보드와 댓글 삭제 실패");
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} else {
+			return ResponseEntity.status(403).body("삭제 권한 없음"); // 권한 없을 경우 403 에러 반환
 		}
-		
-		return ResponseEntity.status(500).body("삭제실패");
 	}
-	
+
 }

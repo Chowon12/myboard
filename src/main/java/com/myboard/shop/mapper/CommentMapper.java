@@ -15,10 +15,10 @@ public interface CommentMapper {
 
 	int insertComment(Comment comment) throws SQLException;
 
-	int deleteComment(@Param("id") int id, 
-						@Param("author") Integer author, 
-						@Param("userid") String userid) throws SQLException;
+	boolean deleteComment(@Param("id") int id) throws SQLException;
 
-	List<Comment> getCommentByBoardId(int boardId)throws SQLException;
+	int deleteCommentByBoardId(int fileNo);
 	
+	List<Comment> getCommentByBoardId(int boardId)throws SQLException;
+
 }

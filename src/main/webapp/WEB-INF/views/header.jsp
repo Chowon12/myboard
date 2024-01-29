@@ -14,16 +14,16 @@ li {
 			<li><span style="font-size: 12pt;"><input type="button"
 						value="목록" onclick="redirectToPath('/boards')"></span></li>
 			<li><span style="font-size: 12pt;"><input type="button"
-						value="게시글 등록" onclick="location.href='boardReg'"></span></li>
-			<li><c:if test="${empty sessionScope.userId}">
+						value="게시글 등록" onclick="location.href='/reg/board'"></span></li>
+			<li><c:if test="${empty sessionScope.user.id}">
 					<span style="font-size: 12pt;"><input type="button"
 						value="로그인" onclick="redirectToPath('/login')"></span>
 				</c:if> 
-				<%-- <c:if test="${not empty sessionScope.userId}">
-					<span>${sessionScope.userId} 님 </span>
+				<c:if test="${not empty sessionScope.user}">
+					<span>${sessionScope.user.id} 님 </span>
 					<span style="font-size: 12pt;"><input type="button"
 						value="로그아웃" onclick="redirectToPath('/logout')"></span>
-				</c:if> --%>
+				</c:if>
 			</li>
 		</ul>
 	</div>

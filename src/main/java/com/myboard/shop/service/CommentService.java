@@ -35,8 +35,20 @@ public class CommentService {
 	}
 
 
-	public boolean deleteComment(int id, Integer author, String userid) throws SQLException {
-		int result = commentMapper.deleteComment(id, author, userid);	
-		return result == 0 ? false : true;
+	public boolean deleteComment(int id) throws SQLException {
+		return commentMapper.deleteComment(id);
 	}
+
+	public boolean deleteCommentByBoardId(int fileNo) {
+        try {
+            int rowsAffected = commentMapper.deleteCommentByBoardId(fileNo);
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
 }
